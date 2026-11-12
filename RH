@@ -3,7 +3,7 @@ local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Add your locations here
+-- 1. Add your single location here (you can add more rows here later!)
 local locations = {
     {Name = "Loot", CFrame = CFrame.new(-9.9, 125.1, -538.5)}
 }
@@ -127,16 +127,15 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     end
 end)
 
--- Teleport Function with Safe Character Check
+-- Teleport Function
 local function teleportTo(targetCFrame)
-    local character = player.Character or player.CharacterAdded:Wait()
-    local rootPart = character:WaitForChild("HumanoidRootPart", 2)
-    if rootPart then
-        rootPart.CFrame = targetCFrame
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.CFrame = targetCFrame
     end
 end
 
--- Generate Buttons Automatically
+-- Generate Buttons Dynamically
 for i, loc in ipairs(locations) do
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(1, 0, 0, 30)
