@@ -151,3 +151,13 @@ for i, loc in ipairs(locations) do
     btn.Text = loc.Name
     btn.AutoButtonColor = true
     btn.LayoutOrder = i
+    btn.Parent = contentFrame
+    
+    local btnCorner = Instance.new("UICorner")
+    btnCorner.CornerRadius = UDim.new(0, 6)
+    btnCorner.Parent = btn
+    
+    btn.MouseButton1Click:Connect(function()
+        teleportTo(loc.CFrame)
+    end)
+end
