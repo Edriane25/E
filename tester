@@ -4,19 +4,17 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 local locations = {
-    {Name = "Loot", CFrame = CFrame.new(-9.9, 125.1, -538.5)},
-    {Name = "Looting", CFrame = CFrame.new(0, 125.1, 0)},
-    {Name = "home", CFrame = CFrame.new(122, 125.1, -538.5)}
+    {Name = "Mutate",     CFrame = CFrame.new(-1348.9, 17.7, 1999.3)},
+    {Name = "Cave",       CFrame = CFrame.new(-3346.0, 11.0, 573.3)},
+    {Name = "Red",        CFrame = CFrame.new(-193.9, 15.7, -238.2)},
+    {Name = "Green",      CFrame = CFrame.new(527.4, 27.3, -2141.1)}
 }
 
 -- Calculate dynamic height based on how many locations exist
 local totalButtons = #locations
 local headerHeight = 34
-local buttonHeight = 30
-local padding = 4
-local outerMargin = 12
+local frameHeight = headerHeight + (totalButtons * 32) + ((totalButtons - 1) * 4) + 12
 
-local frameHeight = headerHeight + (totalButtons * buttonHeight) + ((totalButtons - 1) * padding) + outerMargin
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "TeleportGui"
@@ -81,7 +79,7 @@ minimizeBtn.Text = "-"
 minimizeBtn.ZIndex = 3
 minimizeBtn.Parent = titleBar
 
--- Close Button
+-- Close Button (Fixed to standard X)
 local closeBtn = Instance.new("TextButton")
 closeBtn.Size = UDim2.new(0, 34, 0, 34)
 closeBtn.Position = UDim2.new(1, -34, 0, 0)
@@ -93,17 +91,17 @@ closeBtn.Text = "X"
 closeBtn.ZIndex = 3
 closeBtn.Parent = titleBar
 
--- Content Container
+-- Content Container with Clean Padding
 local contentFrame = Instance.new("Frame")
-contentFrame.Size = UDim2.new(1, -12, 1, -headerHeight - 6)
-contentFrame.Position = UDim2.new(0, 6, 0, headerHeight + 4)
+contentFrame.Size = UDim2.new(1, -12, 1, -40)
+contentFrame.Position = UDim2.new(0, 6, 0, 38)
 contentFrame.BackgroundTransparency = 1
 contentFrame.Parent = mainFrame
 
 local uiListLayout = Instance.new("UIListLayout")
 uiListLayout.Parent = contentFrame
 uiListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-uiListLayout.Padding = UDim.new(0, padding)
+uiListLayout.Padding = UDim.new(0, 4)
 uiListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
 -- Minimize Logic
@@ -143,7 +141,7 @@ end
 -- Generate Buttons Dynamically
 for i, loc in ipairs(locations) do
     local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(1, 0, 0, buttonHeight)
+    btn.Size = UDim2.new(1, 0, 0, 30)
     btn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     btn.TextColor3 = Color3.fromRGB(240, 240, 240)
     btn.TextSize = 14
