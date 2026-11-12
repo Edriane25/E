@@ -3,7 +3,7 @@ local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- 1. Add your locations here
+-- Add your locations here
 local locations = {
     {Name = "Loot", CFrame = CFrame.new(-9.9, 125.1, -538.5)}
 }
@@ -127,11 +127,12 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     end
 end)
 
--- Teleport Function
+-- Teleport Function with Safe Character Check
 local function teleportTo(targetCFrame)
-    local character = player.Character
-    if character and character:FindFirstChild("HumanoidRootPart") then
-        character.HumanoidRootPart.CFrame = targetCFrame
+    local character = player.Character or player.CharacterAdded:Wait()
+    local rootPart = character:WaitForChild("HumanoidRootPart", 2)
+    if rootPart then
+        rootPart.CFrame = targetCFrame
     end
 end
 
