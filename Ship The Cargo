@@ -1,0 +1,163 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local locations = {
+    {Name = "Mutate",     CFrame = CFrame.new(-1348.9, 17.7, 1999.3)},
+    {Name = "Cave",       CFrame = CFrame.new(-3346.0, 11.0, 573.3)},
+    {Name = "Red",        CFrame = CFrame.new(-193.9, 15.7, -238.2)},
+    {Name = "Green",      CFrame = CFrame.new(527.4, 27.3, -2141.1)},
+    {Name = "Blue",       CFrame = CFrame.new(-1377.3, 15.3, -2000.2)},
+    {Name = "Lighthouse", CFrame = CFrame.new(-3492.5, 115.6, -1600.9)}
+}
+
+-- Calculate dynamic height based on how many locations exist
+local totalButtons = #locations
+local headerHeight = 34
+local frameHeight = headerHeight + (totalButtons * 32) + ((totalButtons - 1) * 4) + 12
+
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "TeleportGui"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = playerGui
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 200, 0, frameHeight)
+mainFrame.Position = UDim2.new(0, 100, 0, 100)
+mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+mainFrame.BackgroundTransparency = 0.25
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.ClipsDescendants = true
+mainFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 8)
+corner.Parent = mainFrame
+
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(50, 50, 50)
+stroke.Thickness = 1
+stroke.Parent = mainFrame
+
+local dragDetector = Instance.new("UIDragDetector")
+dragDetector.Parent = mainFrame
+
+-- Top Header Bar
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, headerHeight)
+titleBar.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+titleBar.BorderSizePixel = 0
+titleBar.ZIndex = 2
+titleBar.Parent = mainFrame
+
+local titleBarCorner = Instance.new("UICorner")
+titleBarCorner.CornerRadius = UDim.new(0, 8)
+titleBarCorner.Parent = titleBar
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -68, 1, 0)
+titleLabel.Position = UDim2.new(0, 10, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
+titleLabel.TextSize = 14
+titleLabel.Font = Enum.Font.SourceSansBold
+titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+titleLabel.Text = "Teleport"
+titleLabel.ZIndex = 2
+titleLabel.Parent = titleBar
+
+-- Minimize Button
+local minimizeBtn = Instance.new("TextButton")
+minimizeBtn.Size = UDim2.new(0, 34, 0, 34)
+minimizeBtn.Position = UDim2.new(1, -68, 0, 0)
+minimizeBtn.BackgroundTransparency = 1
+minimizeBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
+minimizeBtn.TextSize = 16
+minimizeBtn.Font = Enum.Font.SourceSansBold
+minimizeBtn.Text = "-"
+minimizeBtn.ZIndex = 3
+minimizeBtn.Parent = titleBar
+
+-- Close Button (Fixed to standard X)
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 34, 0, 34)
+closeBtn.Position = UDim2.new(1, -34, 0, 0)
+closeBtn.BackgroundTransparency = 1
+closeBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
+closeBtn.TextSize = 14
+closeBtn.Font = Enum.Font.SourceSansBold
+closeBtn.Text = "X"
+closeBtn.ZIndex = 3
+closeBtn.Parent = titleBar
+
+-- Content Container with Clean Padding
+local contentFrame = Instance.new("Frame")
+contentFrame.Size = UDim2.new(1, -12, 1, -40)
+contentFrame.Position = UDim2.new(0, 6, 0, 38)
+contentFrame.BackgroundTransparency = 1
+contentFrame.Parent = mainFrame
+
+local uiListLayout = Instance.new("UIListLayout")
+uiListLayout.Parent = contentFrame
+uiListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+uiListLayout.Padding = UDim.new(0, 4)
+uiListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+-- Minimize Logic
+local minimized = false
+minimizeBtn.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    contentFrame.Visible = not minimized
+    if minimized then
+        mainFrame.Size = UDim2.new(0, 200, 0, headerHeight)
+        minimizeBtn.Text = "+"
+    else
+        mainFrame.Size = UDim2.new(0, 200, 0, frameHeight)
+        minimizeBtn.Text = "-"
+    end
+end)
+
+-- Close / Hide Logic
+closeBtn.MouseButton1Click:Connect(function()
+    screenGui.Enabled = false
+end)
+
+-- Toggle Menu with Right Alt Keybind
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.RightAlt then
+        screenGui.Enabled = not screenGui.Enabled
+    end
+end)
+
+-- Teleport Function
+local function teleportTo(targetCFrame)
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.CFrame = targetCFrame
+    end
+end
+
+-- Generate Buttons Dynamically
+for i, loc in ipairs(locations) do
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1, 0, 0, 30)
+    btn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    btn.TextColor3 = Color3.fromRGB(240, 240, 240)
+    btn.TextSize = 14
+    btn.Font = Enum.Font.SourceSans
+    btn.Text = loc.Name
+    btn.AutoButtonColor = true
+    btn.LayoutOrder = i
+    btn.Parent = contentFrame
+    
+    local btnCorner = Instance.new("UICorner")
+    btnCorner.CornerRadius = UDim.new(0, 6)
+    btnCorner.Parent = btn
+    
+    btn.MouseButton1Click:Connect(function()
+        teleportTo(loc.CFrame)
+    end)
+end
