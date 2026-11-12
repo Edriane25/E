@@ -1,0 +1,137 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "CoordGui"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Main Frame (Modern Dark UI with Rounded Corners)
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 200, 0, 125)
+mainFrame.Position = UDim2.new(0, 20, 0, 20)
+mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+mainFrame.BackgroundTransparency = 0.25
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.ClipsDescendants = true
+mainFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 8)
+corner.Parent = mainFrame
+
+-- Subtle stroke border
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(50, 50, 50)
+stroke.Thickness = 1
+stroke.Parent = mainFrame
+
+-- Built-in Dragging (Works on PC and Mobile)
+local dragDetector = Instance.new("UIDragDetector")
+dragDetector.Parent = mainFrame
+
+-- Top Header Bar
+local topBar = Instance.new("Frame")
+topBar.Size = UDim2.new(1, 0, 0, 34)
+topBar.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+topBar.BorderSizePixel = 0
+topBar.ZIndex = 2
+topBar.Parent = mainFrame
+
+-- Round the top bar's corners to match the main frame
+local topBarCorner = Instance.new("UICorner")
+topBarCorner.CornerRadius = UDim.new(0, 8)
+topBarCorner.Parent = topBar
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -38, 1, 0)
+title.Position = UDim2.new(0, 10, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "Coordinates"
+title.TextColor3 = Color3.fromRGB(220, 220, 220)
+title.TextSize = 12
+title.Font = Enum.Font.SourceSansBold
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.ZIndex = 2
+title.Parent = topBar
+
+-- Minimize Button
+local minBtn = Instance.new("TextButton")
+minBtn.Size = UDim2.new(0, 34, 0, 34)
+minBtn.Position = UDim2.new(1, -34, 0, 0)
+minBtn.BackgroundTransparency = 1
+minBtn.BorderSizePixel = 0
+minBtn.Text = "-"
+minBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
+minBtn.TextSize = 12
+minBtn.Font = Enum.Font.SourceSansBold
+minBtn.ZIndex = 3
+minBtn.Parent = topBar
+
+-- Container for the 3 individual coordinate lines
+local container = Instance.new("Frame")
+container.Size = UDim2.new(1, 0, 1, -34)
+container.Position = UDim2.new(0, 0, 0, 34)
+container.BackgroundTransparency = 1
+container.Parent = mainFrame
+
+-- UI Layout to stack coordinates cleanly in the center
+local uiList = Instance.new("UIListLayout")
+uiList.SortOrder = Enum.SortOrder.LayoutOrder
+uiList.Padding = UDim.new(0, 4)
+uiList.HorizontalAlignment = Enum.HorizontalAlignment.Center
+uiList.VerticalAlignment = Enum.VerticalAlignment.Center
+uiList.Parent = container
+
+-- Function to create clean coordinate rows (Centered)
+local TARGET_TEXT_SIZE = 13
+
+local function createCoordLabel(layoutOrder)
+    local lbl = Instance.new("TextLabel")
+    lbl.Size = UDim2.new(1, -20, 0, 22)
+    lbl.BackgroundTransparency = 1
+    lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+    lbl.TextSize = TARGET_TEXT_SIZE
+    lbl.Font = Enum.Font.Code -- Monospace keeps numbers aligned nicely
+    lbl.TextXAlignment = Enum.TextXAlignment.Center
+    lbl.LayoutOrder = layoutOrder
+    lbl.Parent = container
+    return lbl
+end
+
+local xLabel = createCoordLabel(1)
+local yLabel = createCoordLabel(2)
+local zLabel = createCoordLabel(3)
+
+-- Minimize Toggle
+local isMinimized = false
+minBtn.MouseButton1Click:Connect(function()
+    isMinimized = not isMinimized
+    container.Visible = not isMinimized
+    if isMinimized then
+        mainFrame.Size = UDim2.new(0, 200, 0, 34)
+        minBtn.Text = "+"
+    else
+        mainFrame.Size = UDim2.new(0, 200, 0, 125)
+        minBtn.Text = "-"
+    end
+end)
+
+-- Coordinate Loop (Simple plain text)
+RunService.RenderStepped:Connect(function()
+    local char = player.Character
+    local root = char and char:FindFirstChild("HumanoidRootPart")
+    if root then
+        local pos = root.Position
+        xLabel.Text = string.format("X: %.1f", pos.X)
+        yLabel.Text = string.format("Y: %.1f", pos.Y)
+        zLabel.Text = string.format("Z: %.1f", pos.Z)
+    else
+        xLabel.Text = "Waiting..."
+        yLabel.Text = ""
+        zLabel.Text = ""
+    end
+end)
