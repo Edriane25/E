@@ -5,6 +5,7 @@ local playerGui = player:WaitForChild("PlayerGui")
 
 local locations = {
     {Name = "Loot", CFrame = CFrame.new(-9.9, 125.1, -538.5)},
+    {Name = "Looting", CFrame = CFrame.new(0, 125.1, 0)},
     {Name = "home", CFrame = CFrame.new(122, 125.1, -538.5)}
 }
 
