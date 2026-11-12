@@ -91,7 +91,7 @@ closeBtn.Parent = titleBar
 
 -- Content Container
 local contentFrame = Instance.new("Frame")
-contentFrame.Size = UDim2.new(1, -12, 1, -40)
+contentFrame.Size = UDim2.new(1, -12, 1, -44)
 contentFrame.Position = UDim2.new(0, 6, 0, 38)
 contentFrame.BackgroundTransparency = 1
 contentFrame.Parent = mainFrame
