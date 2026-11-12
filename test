@@ -3,10 +3,10 @@ local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- 1. Add your single location here (you can add more rows here later!)
+
 local locations = {
-    {Name = "help", CFrame = CFrame.new(0, 0, 0)}
-    {Name = "destina", CFrame = CFrame.new(-18, 125.1, -1)}
+    {Name = "destination", CFrame = CFrame.new(0, 0, 0)},
+    {Name = "destination", CFrame = CFrame.new(5, 125.1, 10)},
 }
 
 -- Calculate dynamic height based on how many locations exist
