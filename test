@@ -3,11 +3,6 @@ local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Clean up any existing TeleportGui to prevent duplicates when re-running the script
-if playerGui:FindFirstChild("TeleportGui") then
-    playerGui.TeleportGui:Destroy()
-end
-
 local locations = {
     {Name = "Destination 1", CFrame = CFrame.new(0, 0, 0)},
     {Name = "Destination 2", CFrame = CFrame.new(12, 3, 5)},
