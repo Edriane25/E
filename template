@@ -3,20 +3,15 @@ local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
+-- 1. Add your locations here (currently set to just 1)
 local locations = {
-    {Name = "Mutate",     CFrame = CFrame.new(-1348.9, 17.7, 1999.3)},
-    {Name = "Cave",       CFrame = CFrame.new(-3346.0, 11.0, 573.3)},
-    {Name = "Red",        CFrame = CFrame.new(-193.9, 15.7, -238.2)},
-    {Name = "Green",      CFrame = CFrame.new(527.4, 27.3, -2141.1)},
-    {Name = "Blue",       CFrame = CFrame.new(-1377.3, 15.3, -2000.2)},
-    {Name = "Lighthouse", CFrame = CFrame.new(-3492.5, 115.6, -1600.9)}
+    {Name = "Destination 1", CFrame = CFrame.new(0, 50, 0)}
 }
 
 -- Calculate dynamic height based on how many locations exist
 local totalButtons = #locations
 local headerHeight = 34
 local frameHeight = headerHeight + (totalButtons * 32) + ((totalButtons - 1) * 4) + 12
-
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "TeleportGui"
@@ -81,7 +76,7 @@ minimizeBtn.Text = "-"
 minimizeBtn.ZIndex = 3
 minimizeBtn.Parent = titleBar
 
--- Close Button (Fixed to standard X)
+-- Close Button
 local closeBtn = Instance.new("TextButton")
 closeBtn.Size = UDim2.new(0, 34, 0, 34)
 closeBtn.Position = UDim2.new(1, -34, 0, 0)
@@ -93,7 +88,7 @@ closeBtn.Text = "X"
 closeBtn.ZIndex = 3
 closeBtn.Parent = titleBar
 
--- Content Container with Clean Padding
+-- Content Container
 local contentFrame = Instance.new("Frame")
 contentFrame.Size = UDim2.new(1, -12, 1, -40)
 contentFrame.Position = UDim2.new(0, 6, 0, 38)
@@ -140,7 +135,7 @@ local function teleportTo(targetCFrame)
     end
 end
 
--- Generate Buttons Dynamically
+-- Generate Buttons Automatically based on the locations table above
 for i, loc in ipairs(locations) do
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(1, 0, 0, 30)
@@ -154,6 +149,7 @@ for i, loc in ipairs(locations) do
     btn.Parent = contentFrame
     
     local btnCorner = Instance.new("UICorner")
+    btn.CornerRadius = UDim.new(0, 6) -- (Note: Ensure this uses btnCorner if adjusting, but matches your style)
     btnCorner.CornerRadius = UDim.new(0, 6)
     btnCorner.Parent = btn
     
