@@ -6,8 +6,8 @@ local playerGui = player:WaitForChild("PlayerGui")
 local locations = {
     {Name = "Home",     CFrame = CFrame.new(-1.8, 27.9, 502.4)},
     {Name = "Easy",     CFrame = CFrame.new(-2.2, 163.9, -474.5)},
-    {Name = "Temp",     CFrame = CFrame.new(0, 125.1, 18)},
-    {Name = "Temp",     CFrame = CFrame.new(0, 125.1, 18)},
+    {Name = "Mid",     CFrame = CFrame.new(-1.8, 459.4, -1862)},
+    {Name = "Temp",     CFrame = CFrame.new(-1.8, 542, -2211)},
 }
 
 -- Calculate dynamic height based on how many locations exist
