@@ -5,7 +5,7 @@ local playerGui = player:WaitForChild("PlayerGui")
 
 local locations = {
     {Name = "Stage 1 Last",     CFrame = CFrame.new(0, -445.0, -1558)},
-    {Name = "Temp",     CFrame = CFrame.new(0, 0, 0)},
+    {Name = "Fast drain",     CFrame = CFrame.new(0, -253, -920)},
     {Name = "Temp",     CFrame = CFrame.new(0, 0, 0)},
 }
 
