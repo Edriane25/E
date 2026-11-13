@@ -4,9 +4,9 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 local locations = {
-    {Name = "Top",     CFrame = CFrame.new(-2.8, 630.4, -2579.4)},
-    {Name = "Mid",     CFrame = CFrame.new(-2.8, 459.4, -1862)},
-    {Name = "Bot",     CFrame = CFrame.new(-2.8, 163.9, -474.5)},
+    {Name = "Top1",     CFrame = CFrame.new(-1.9, 724.9, -2961.3)},
+    {Name = "Top2",     CFrame = CFrame.new(2207, 582.4, 662.9)},
+    {Name = "Top3",     CFrame = CFrame.new(-3435, 975.4, 663)},
     {Name = "Train",     CFrame = CFrame.new(-2.8, 25, 560)},
 }
 
