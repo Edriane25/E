@@ -62,7 +62,7 @@ titleLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
 titleLabel.TextSize = 14
 titleLabel.Font = Enum.Font.SourceSansBold
 titleLabel.TextXAlignment = Enum.TextXAlignment.Left
-titleLabel.Text = "Teleport"
+titleLabel.Text = "Drain Water for Treasure"
 titleLabel.ZIndex = 2
 titleLabel.Parent = titleBar
 
